@@ -1,0 +1,358 @@
+import type { Quiz } from "../types";
+
+/**
+ * Six topic quizzes x 5 MCQs. Scores are graded server-side from these
+ * answerIndex values when a submission is recorded (never trusted from
+ * the client). The functions-basics quiz intentionally ships before its
+ * lesson (chunk C) - quizzes stand on their own.
+ */
+export const seedQuizzes: Quiz[] = [
+  {
+    id: "qiz-01",
+    slug: "quiz-variables",
+    topicSlug: "variables-and-data-types",
+    title: "Quiz: Variables and Data Types",
+    questions: [
+      {
+        id: "qv-1-1",
+        prompt: "Which type correctly stores a value like 4.85?",
+        options: ["int", "float", "char", "void"],
+        answerIndex: 1,
+        explanation: "Decimal values need float; int holds whole numbers and char holds one character.",
+      },
+      {
+        id: "qv-1-2",
+        prompt: "What is stored by the declaration char section = 'B';?",
+        options: [
+          "The string B",
+          "A single character B in single quotes",
+          "The number 66 only",
+          "Nothing - it is a syntax error",
+        ],
+        answerIndex: 1,
+        explanation: "char holds exactly one character; single quotes mark a character constant.",
+      },
+      {
+        id: "qv-1-3",
+        prompt: "Which format specifier prints an int in printf?",
+        options: ["%f", "%c", "%d", "%s"],
+        answerIndex: 2,
+        explanation: "%d is for int, %f for float, %c for char.",
+      },
+      {
+        id: "qv-1-4",
+        prompt: "Which of these variable names will the compiler reject?",
+        options: ["totalMarks", "_count", "9thResult", "sum2"],
+        answerIndex: 2,
+        explanation: "A name cannot begin with a digit; the others follow the naming rules.",
+      },
+      {
+        id: "qv-1-5",
+        prompt: "What does int marks = 87; do?",
+        options: [
+          "Only creates the box",
+          "Creates the box and stores 87 in one statement",
+          "Prints 87",
+          "Reads 87 from the keyboard",
+        ],
+        answerIndex: 1,
+        explanation: "Declaration with an initial value combines creating the variable and assigning it.",
+      },
+    ],
+  },
+  {
+    id: "qiz-02",
+    slug: "quiz-io",
+    topicSlug: "input-output",
+    title: "Quiz: Input and Output",
+    questions: [
+      {
+        id: "qi-1-1",
+        prompt: "Why is & needed in scanf(\"%d\", &n);?",
+        options: [
+          "It makes n a global variable",
+          "It passes the address of n so scanf can store into it",
+          "It clears n first",
+          "It is optional decoration",
+        ],
+        answerIndex: 1,
+        explanation: "scanf must write into memory, so it needs the address of the destination box.",
+      },
+      {
+        id: "qi-1-2",
+        prompt: "What does printf(\"Total: %d\\n\", 10 + 5); print?",
+        options: ["Total: %d", "Total: 15", "15", "Total: 10 + 5"],
+        answerIndex: 1,
+        explanation: "The expression is evaluated first, then printed in place of the placeholder.",
+      },
+      {
+        id: "qi-1-3",
+        prompt: "scanf(\"%d %d\", &a, &b); - how does the user type the two values?",
+        options: [
+          "Only on one line separated by a space",
+          "Only on separate lines",
+          "Either way - spaces, tabs or newlines all separate the values",
+          "Inside quotes like \"3 4\"",
+        ],
+        answerIndex: 2,
+        explanation: "scanf treats any whitespace as a separator between numeric values.",
+      },
+      {
+        id: "qi-1-4",
+        prompt: "Which statement shows a message asking the user to type marks?",
+        options: ["scanf(\"%d\", &marks);", "printf(\"Enter marks: \");", "return 0;", "#include <stdio.h>"],
+        answerIndex: 1,
+        explanation: "Prompts are printed with printf; scanf only reads.",
+      },
+      {
+        id: "qi-1-5",
+        prompt: "What is the danger of scanf(\"%d\", n) without the &?",
+        options: [
+          "Nothing - it still works",
+          "scanf receives the value instead of the address and may crash or corrupt memory",
+          "It becomes a printf",
+          "It reads two numbers",
+        ],
+        answerIndex: 1,
+        explanation: "Without the address scanf writes to a wrong location - a classic crash and exam question.",
+      },
+    ],
+  },
+  {
+    id: "qiz-03",
+    slug: "quiz-conditionals",
+    topicSlug: "conditional-statements",
+    title: "Quiz: Conditional Statements",
+    questions: [
+      {
+        id: "qc-1-1",
+        prompt: "if (marks = 33) - what does this line actually do?",
+        options: [
+          "Checks whether marks equals 33",
+          "Assigns 33 to marks; the condition is then always true",
+          "Is a syntax error",
+          "Prints 33",
+        ],
+        answerIndex: 1,
+        explanation: "One = assigns; the assigned non-zero value 33 counts as true. Comparison needs ==.",
+      },
+      {
+        id: "qc-1-2",
+        prompt: "How many branches of one if / else if / else chain can run for a single input?",
+        options: ["All that are true", "Exactly one", "At most two", "None if there is an else"],
+        answerIndex: 1,
+        explanation: "The first true condition wins; everything after it in the chain is skipped.",
+      },
+      {
+        id: "qc-1-3",
+        prompt: "Which condition is true when marks is between 33 and 100 (inclusive)?",
+        options: [
+          "marks >= 33 || marks <= 100",
+          "marks >= 33 && marks <= 100",
+          "marks > 33 && marks < 100",
+          "33 <= marks <= 100",
+        ],
+        answerIndex: 1,
+        explanation: "&& requires both bounds; the || version is true for every number, and C cannot chain like 33 <= marks <= 100.",
+      },
+      {
+        id: "qc-1-4",
+        prompt: "What is wrong with: if (marks >= 33); { printf(\"Pass\"); }",
+        options: [
+          "Nothing is wrong",
+          "The semicolon ends the if, so the block always runs",
+          "printf is misspelled",
+          "The braces must be removed",
+        ],
+        answerIndex: 1,
+        explanation: "The stray semicolon is an empty statement attached to the if; the block after it runs unconditionally.",
+      },
+      {
+        id: "qc-1-5",
+        prompt: "Which operator means NOT equal in C?",
+        options: ["<>", "=/=", "!=", "not="],
+        answerIndex: 2,
+        explanation: "C writes not-equal as !=.",
+      },
+    ],
+  },
+  {
+    id: "qiz-04",
+    slug: "quiz-loops",
+    topicSlug: "loops",
+    title: "Quiz: Loops",
+    questions: [
+      {
+        id: "ql-1-1",
+        prompt: "How many times does the body of for (i = 0; i < 4; i++) run?",
+        options: ["3", "4", "5", "Forever"],
+        answerIndex: 1,
+        explanation: "i takes 0, 1, 2, 3 - four rounds; the check fails when i reaches 4.",
+      },
+      {
+        id: "ql-1-2",
+        prompt: "What makes while (i <= n) an infinite loop?",
+        options: [
+          "Using <= instead of <",
+          "The body never moving i toward the exit",
+          "Forgetting the braces",
+          "Using while instead of for",
+        ],
+        answerIndex: 1,
+        explanation: "If nothing changes i (or n) inside the body, the condition stays true forever.",
+      },
+      {
+        id: "ql-1-3",
+        prompt: "A running total starts at sum = 0 and adds i inside a loop. What is this pattern called?",
+        options: ["Recursion", "Accumulate", "Nesting", "Modulus"],
+        answerIndex: 1,
+        explanation: "The accumulator pattern: start neutral (0 for sums), update inside the loop, use after it.",
+      },
+      {
+        id: "ql-1-4",
+        prompt: "Where is a printf placed so it runs exactly once, after the loop ends?",
+        options: [
+          "Inside the loop body",
+          "After the loop's closing brace",
+          "In the for line itself",
+          "Inside the condition",
+        ],
+        answerIndex: 1,
+        explanation: "Code after the loop runs once control leaves; code in the body repeats every round.",
+      },
+      {
+        id: "ql-1-5",
+        prompt: "for (i = 1; i <= n; i++) - what values does i take inside the body?",
+        options: ["0 to n", "1 to n", "1 to n-1", "2 to n"],
+        answerIndex: 1,
+        explanation: "It starts at 1 and the last passing check is i == n.",
+      },
+    ],
+  },
+  {
+    id: "qiz-05",
+    slug: "quiz-arrays",
+    topicSlug: "arrays",
+    title: "Quiz: Arrays",
+    questions: [
+      {
+        id: "qa-1-1",
+        prompt: "int a[5]; creates how many usable seats, and what is the first one?",
+        options: ["Five seats, starting at a[1]", "Five seats, starting at a[0]", "Six seats, starting at a[0]", "Four seats"],
+        answerIndex: 1,
+        explanation: "Five seats indexed 0 through 4; C counts from zero.",
+      },
+      {
+        id: "qa-1-2",
+        prompt: "Which loop correctly visits every seat of int a[5];?",
+        options: [
+          "for (i = 1; i <= 5; i++)",
+          "for (i = 0; i <= 5; i++)",
+          "for (i = 0; i < 5; i++)",
+          "for (i = 5; i > 0; i--)",
+        ],
+        answerIndex: 2,
+        explanation: "Indexes are 0..4, so start at 0 and stop before 5. Both wrong options touch a[5].",
+      },
+      {
+        id: "qa-1-3",
+        prompt: "Why start a maximum scan with max = a[0] instead of max = 0?",
+        options: [
+          "It is faster",
+          "0 cannot be compared",
+          "A made-up start is wrong when all values are below it",
+          "a[0] is always the maximum",
+        ],
+        answerIndex: 2,
+        explanation: "The first real value is always a safe champion; 0 fails when every value is negative.",
+      },
+      {
+        id: "qa-1-4",
+        prompt: "Reading into an array from the keyboard needs which scanf form?",
+        options: [
+          "scanf(\"%d\", a[i]);",
+          "scanf(\"%d\", &a[i]);",
+          "scanf(\"%d\", &a);",
+          "scanf(a[i]);",
+        ],
+        answerIndex: 1,
+        explanation: "The & passes the address of seat i, the same rule as for a plain variable.",
+      },
+      {
+        id: "qa-1-5",
+        prompt: "What does the compiler do with marks[5] on a five-seat array?",
+        options: [
+          "Refuses to compile",
+          "Warns and blocks it",
+          "Allows it - reading whatever sits past the array in memory",
+          "Automatically grows the array",
+        ],
+        answerIndex: 2,
+        explanation: "C performs no bounds checking; an out-of-range index silently reads or corrupts neighbouring memory.",
+      },
+    ],
+  },
+  {
+    id: "qiz-06",
+    slug: "quiz-functions-basics",
+    topicSlug: "functions",
+    title: "Quiz: Functions Basics",
+    questions: [
+      {
+        id: "qf-1-1",
+        prompt: "What are the three parts of a function definition in C?",
+        options: [
+          "Name, body, semicolon",
+          "Return type, name, parameter list",
+          "Header, footer, braces",
+          "Type, value, address",
+        ],
+        answerIndex: 1,
+        explanation: "A definition states the return type, the name, and the parameters in brackets, followed by the body.",
+      },
+      {
+        id: "qf-1-2",
+        prompt: "What does the return type void mean?",
+        options: [
+          "The function returns 0",
+          "The function returns nothing",
+          "The function is empty inside",
+          "The function takes no parameters",
+        ],
+        answerIndex: 1,
+        explanation: "void means no value comes back; (void) in the parameter list is what means no parameters.",
+      },
+      {
+        id: "qf-1-3",
+        prompt: "A function is declared as int square(int x). Which call is correct?",
+        options: ["square(5);", "int square(5);", "square int 5;", "call square(5);"],
+        answerIndex: 0,
+        explanation: "A call names the function and passes arguments - no return type at the call site.",
+      },
+      {
+        id: "qf-1-4",
+        prompt: "Why write a prototype like float average(int a, int b); above main()?",
+        options: [
+          "It creates the function",
+          "It tells the compiler the signature before the definition appears",
+          "It makes the function faster",
+          "It is required by printf",
+        ],
+        answerIndex: 1,
+        explanation: "The prototype lets main call a function whose body is defined later in the file.",
+      },
+      {
+        id: "qf-1-5",
+        prompt: "What is an argument in the context of functions?",
+        options: [
+          "The body of the function",
+          "The value a caller passes into a parameter",
+          "The return value",
+          "A comment explaining the function",
+        ],
+        answerIndex: 1,
+        explanation: "Arguments travel from the caller into the function's parameters.",
+      },
+    ],
+  },
+];
