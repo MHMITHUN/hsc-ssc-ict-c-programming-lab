@@ -18,8 +18,6 @@ To add after Vercel deploy.
 | Student dashboard | `docs/screenshots/dashboard.png` |
 | Teacher dashboard | `docs/screenshots/teacher.png` |
 
-(Image files are added separately; the paths above are where they live.)
-
 ## Problem
 
 SSC and HSC ICT students must learn C programming for their practical exams, but most practice happens on paper or in static PDFs. Students cannot run the programs they write, cannot see how variables change while a loop runs, and get no feedback until a teacher grades their work by hand. Teachers, in turn, have no easy way to see which students completed which lessons or how the class is actually doing.
@@ -163,7 +161,7 @@ See `.env.example`. Never commit real secrets.
 1. Push the repository to GitHub (the project is a standard Next.js App Router app - no custom build configuration).
 2. In Vercel: **Add New... -> Project**, import the repository; the Next.js preset is detected automatically.
 3. **Demo mode needs zero environment variables** - deploy immediately and the in-memory store seeds itself.
-4. Optional variables (Production + Preview): `MONGODB_URI` + `MONGODB_DB_NAME` for persistence, `SESSION_SECRET` (strongly recommended in production), `JUDGE0_API_URL` + `JUDGE0_API_KEY` + `EXECUTION_MODE=judge0` for real code execution.
+4. Environment variables (Production + Preview): `SESSION_SECRET` is **required in production** (see the env table - without it the demo fallback secret signs session cookies, so tokens are forgeable). Optional: `MONGODB_URI` + `MONGODB_DB_NAME` for persistence, `JUDGE0_API_URL` + `JUDGE0_API_KEY` + `EXECUTION_MODE=judge0` for real code execution.
 5. Deploy, then run the smoke checklist:
    - home page loads with no console errors;
    - Learn -> any topic with a lesson -> dry-run "Next" button steps the trace;
@@ -189,6 +187,7 @@ All accounts (and the ten demo students behind the class progress views) are fic
 - **The demo store resets on restart.** In-memory mode loses new accounts, quiz attempts and submissions when the server restarts. Set `MONGODB_URI` for persistence.
 - **Dry-run traces are hand-authored**, produced by a teacher for the lesson's sample input - they are a teaching visualization, not a live debugger (pages say so).
 - **Problem auto-checking uses the single sample test case** (trimmed exact output match), not a hidden multi-case suite.
+- **The rate limiter is in-memory and per-instance.** `/api/run` allows 12 runs per user per minute, counted in process memory - on serverless platforms each instance counts separately, and counters reset on restart.
 - **No middleware**: correctness depends on every page/handler/action guarding itself - which they do, but adding a new route means adding its guard.
 
 ## Future Enhancements
